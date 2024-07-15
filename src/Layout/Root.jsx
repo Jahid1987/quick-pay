@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import Nav from "../components/Nav";
 
 const Root = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Nav />
       <Outlet></Outlet>
     </div>
   );
