@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -12,6 +13,7 @@ const AuthProvider = ({ children }) => {
     try {
       const decodedUser = jwtDecode(token);
       setUser(decodedUser);
+      setIsLoading(false);
     } catch (error) {
       toast.error("Something went wrong");
       Cookies.remove("token");
@@ -33,6 +35,7 @@ const AuthProvider = ({ children }) => {
     user,
     login,
     logout,
+    isLoading,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>

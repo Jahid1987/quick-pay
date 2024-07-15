@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { axiosPublic } from "../hooks/useAxiosPublic";
 import { useContext } from "react";
@@ -14,6 +14,9 @@ const Login = () => {
   } = useForm();
 
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
   async function handleLogin(data) {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     const numberPattern = /^\d+$/;
@@ -25,15 +28,15 @@ const Login = () => {
         const res = await axiosPublic.post("/auth/login", credentials);
         login(res?.data?.token);
         toast.success("Login successfully.");
-
+        navigate(location.state || "/");
         return reset();
       }
       if (isMobile) {
         const credentials = { mobile: data.identity, pin: data.pin };
-        await axiosPublic.post("/auth/mobilelogin", credentials, {
-          withCredentials: true,
-        });
+        const res = await axiosPublic.post("/auth/mobilelogin", credentials);
+        login(res?.data?.token);
         toast.success("Login successfully.");
+        navigate(location.state || "/");
         return reset();
       }
     } catch (error) {
