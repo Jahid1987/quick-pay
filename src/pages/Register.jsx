@@ -1,13 +1,30 @@
 import { useForm } from "react-hook-form";
-
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  function handleRegister(data) {
-    console.log(data);
+
+  const axiosPublic = useAxiosPublic();
+  const navigate = useNavigate();
+  async function handleRegister(data) {
+    const { name, pin, mobile, email } = data;
+    const newUser = {
+      name,
+      pin,
+      mobile,
+      email,
+      status: "pending",
+      role: "user",
+    };
+    await axiosPublic.post("/auth/register", newUser);
+    toast.success("Login to use services.");
+    navigate("/login");
+    console.log(newUser);
   }
   return (
     <div className="py-5 md:py-10">
@@ -90,6 +107,12 @@ const Register = () => {
             <button className="btn btn-primary">Register</button>
           </div>
         </form>
+        <p className="text-center mb-3">
+          Already registered?
+          <Link className="btn btn-link" to="/login">
+            login
+          </Link>
+        </p>
       </div>
     </div>
   );

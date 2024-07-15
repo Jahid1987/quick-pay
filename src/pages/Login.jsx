@@ -1,13 +1,43 @@
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
-  function handleLogin(data) {
-    console.log(data);
+  const axiosPublic = useAxiosPublic();
+
+  async function handleLogin(data) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const numberPattern = /^\d+$/;
+    const isEmail = emailPattern.test(data.identity);
+    const isMobile = numberPattern.test(data.identity);
+    try {
+      if (isEmail) {
+        const credentials = { email: data.identity, pin: data.pin };
+        await axiosPublic.post("/auth/login", credentials, {
+          withCredentials: true,
+        });
+        toast.success("Login successfully.");
+        return reset();
+      }
+      if (isMobile) {
+        const credentials = { mobile: data.identity, pin: data.pin };
+        await axiosPublic.post("/auth/mobilelogin", credentials, {
+          withCredentials: true,
+        });
+        toast.success("Login successfully.");
+        return reset();
+      }
+    } catch (error) {
+      toast.error(error?.response?.data);
+      console.log(error);
+    }
   }
   return (
     <div className="py-5 md:py-10">
@@ -18,18 +48,18 @@ const Login = () => {
         <form onSubmit={handleSubmit(handleLogin)} className="card-body">
           <div className="form-control">
             <label className="label flex justify-between">
-              <span className="label-text">Name</span>
-              {errors.name && (
+              <span className="label-text">Mobile/E-mail</span>
+              {errors.identity && (
                 <span className="text-red-500 text-sm">
-                  Name field is required
+                  Mobile/E-mail Number is required
                 </span>
               )}
             </label>
             <input
-              {...register("name", { required: true })}
               type="text"
-              placeholder="name"
+              placeholder="mobile/email"
               className="input input-sm lg:input-md input-bordered"
+              {...register("identity", { required: true })}
             />
           </div>
           <div className="form-control">
@@ -54,42 +84,16 @@ const Login = () => {
               })}
             />
           </div>
-          <div className="form-control">
-            <label className="label flex justify-between">
-              <span className="label-text">Mobile Number</span>
-              {errors.mobile && (
-                <span className="text-red-500 text-sm">
-                  Mobile Number is required
-                </span>
-              )}
-            </label>
-            <input
-              type="number"
-              placeholder="mobile"
-              className="input input-sm lg:input-md input-bordered"
-              {...register("mobile", { required: true })}
-            />
-          </div>
-          <div className="form-control">
-            <label className="label flex justify-between">
-              <span className="label-text">E-mail</span>
-              {errors.email && (
-                <span className="text-red-500 text-sm">
-                  Email field is required
-                </span>
-              )}
-            </label>
-            <input
-              type="email"
-              placeholder="email"
-              className="input input-sm lg:input-md input-bordered"
-              {...register("email", { required: true })}
-            />
-          </div>
           <div className="form-control mt-6">
             <button className="btn btn-primary">Login</button>
           </div>
         </form>
+        <p className="text-center mb-3">
+          Not registered?
+          <Link className="btn btn-link" to="/register">
+            register
+          </Link>
+        </p>
       </div>
     </div>
   );
