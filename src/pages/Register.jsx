@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import useAxiosPublic from "../hooks/useAxiosPublic";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { axiosPublic } from "../hooks/useAxiosPublic";
 const Register = () => {
   const {
     register,
@@ -9,7 +9,6 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
   async function handleRegister(data) {
     const { name, pin, mobile, email } = data;

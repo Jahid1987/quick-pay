@@ -1,19 +1,10 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Nav = () => {
-  const navLinks = (
-    <>
-      <li>
-        <NavLink to="/">Dashboad</NavLink>
-      </li>
-      <li>
-        <NavLink to="/overview">Overview</NavLink>
-      </li>
-      <li>
-        <NavLink to="/transactions">Transactions</NavLink>
-      </li>
-    </>
-  );
+  const { user, logout } = useContext(AuthContext);
+  console.log(user);
   return (
     <div className="bg-base-200">
       <div className="navbar container mx-auto">
@@ -50,43 +41,50 @@ const Nav = () => {
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         <div className="navbar-end">
-          <Link to="register" className="btn btn-link">
-            Register
-          </Link>
-          <Link to="login" className="btn btn-link">
-            Login
-          </Link>
-          <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                />
+          {user == null ? (
+            <>
+              <Link to="register" className="btn btn-link">
+                Register
+              </Link>
+              <Link to="login" className="btn btn-link">
+                Login
+              </Link>
+            </>
+          ) : (
+            <>
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="btn btn-ghost btn-circle avatar"
+                >
+                  <div className="w-10 rounded-full">
+                    <img
+                      alt="Tailwind CSS Navbar component"
+                      src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                    />
+                  </div>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content bg-base-100 rounded-sm z-[1] mt-3 w-52 p-2 shadow space-y-3"
+                >
+                  <li>
+                    <a className="justify-between">
+                      {user?.name}
+                      <span className="badge">{user?.role}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a>{user?.email}</a>
+                  </li>
+                  <li>
+                    <a onClick={logout}>Logout</a>
+                  </li>
+                </ul>
               </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-sm z-[1] mt-3 w-52 p-2 shadow space-y-3"
-            >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">Role</span>
-                </a>
-              </li>
-              <li>
-                <a>Email</a>
-              </li>
-              <li>
-                <a>Logout</a>
-              </li>
-            </ul>
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -94,3 +92,16 @@ const Nav = () => {
 };
 
 export default Nav;
+const navLinks = (
+  <>
+    <li>
+      <NavLink to="/">Dashboad</NavLink>
+    </li>
+    <li>
+      <NavLink to="/overview">Overview</NavLink>
+    </li>
+    <li>
+      <NavLink to="/transactions">Transactions</NavLink>
+    </li>
+  </>
+);
