@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { axiosSecure } from "../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
-import RecipientProfile from "../components/RecipientProfile";
+import RecipientProfile from "../components/handleTransection";
 import { toast } from "react-toastify";
 
 const SendMoney = () => {
@@ -51,8 +51,13 @@ const SendMoney = () => {
             <button className="btn btn-primary">Finde Recipient</button>
           </div>
         </form>
+      ) : recipient?.role !== "user" ? (
+        <p className="text-red-400">
+          You can send money only another user.{" "}
+          {`${recipient.name} is ${recipient.role}`}
+        </p>
       ) : (
-        <RecipientProfile recipient={recipient} />
+        <RecipientProfile transectionType="sendmoney" recipient={recipient} />
       )}
     </div>
   );
