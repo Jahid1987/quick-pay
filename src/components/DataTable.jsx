@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
 import TableRow from "./TableRow";
 import { axiosSecure } from "../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
-const DataTable = ({ limit = 10 }) => {
-  const [transections, setTransections] = useState([]);
-  useEffect(() => {
-    axiosSecure.get(`/transetions?limit=${limit}`).then(({ data }) => {
-      setTransections(data);
-    });
-  }, [limit]);
+const DataTable = ({ limit }) => {
+  const { data: transections = [], refetch } = useQuery({
+    queryKey: ["transections"],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/transetions?limit=${limit}`);
+      return data;
+    },
+  });
   return (
     <>
       <h3 className="text-2xl md:text-3xl text-center mb-3 md:mb-5">
@@ -20,7 +21,7 @@ const DataTable = ({ limit = 10 }) => {
           <tbody>
             {/* row */}
             {transections.map((item) => (
-              <TableRow key={item._id} item={item} />
+              <TableRow update={refetch} key={item._id} item={item} />
             ))}
           </tbody>
         </table>

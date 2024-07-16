@@ -42,6 +42,7 @@ export async function handleTransection(
     status,
   };
   await axiosSecure.post("/transetions/create", newTransection);
-  (transectionType === "sendmoney" || "cashout") &&
-    (await axiosSecure.post("/transetions/sendmoney", newTransection));
+  if (transectionType === "sendmoney" || transectionType === "cashout") {
+    await axiosSecure.post("/transetions/updatebalance", newTransection);
+  }
 }
