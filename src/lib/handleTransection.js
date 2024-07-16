@@ -22,7 +22,7 @@ export async function handleTransection(
 
   if (transectionType === "cashout") {
     charge = amount * 0.015;
-    status = "pending";
+    status = "success";
     sender = user.email;
     receiver = recipient.email;
   }
@@ -41,8 +41,7 @@ export async function handleTransection(
     transectionType,
     status,
   };
-
   await axiosSecure.post("/transetions/create", newTransection);
-  transectionType === "sendmoney" &&
+  (transectionType === "sendmoney" || "cashout") &&
     (await axiosSecure.post("/transetions/sendmoney", newTransection));
 }

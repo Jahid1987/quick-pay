@@ -1,30 +1,18 @@
-import { useEffect, useState } from "react";
-import { axiosSecure } from "../hooks/useAxiosSecure";
-import TableRow from "../components/TableRow";
+import { useContext, useEffect, useState } from "react";
+import DataTable from "../components/DataTable";
+import { AuthContext } from "../providers/AuthProvider";
 
 const Transactions = () => {
-  const [transections, setTransections] = useState([]);
+  const { user } = useContext(AuthContext);
+  const [limit, setLimit] = useState(10);
   useEffect(() => {
-    axiosSecure.get("/transetions").then(({ data }) => {
-      setTransections(data);
-    });
-  }, []);
+    if (user && user.role === "agent") {
+      setLimit(20);
+    }
+  }, [user]);
   return (
     <div className="pt-5 md:pt-8 w-full md:w-10/12 mx-auto">
-      <h3 className="text-2xl md:text-3xl text-center mb-3 md:mb-5">
-        All Transections {transections.length}
-      </h3>
-      <hr />
-      <div className="overflow-x-auto">
-        <table className="table">
-          <tbody>
-            {/* row */}
-            {transections.map((item) => (
-              <TableRow key={item._id} item={item} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <DataTable limit={limit} />
     </div>
   );
 };
