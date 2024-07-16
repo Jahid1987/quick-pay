@@ -10,6 +10,7 @@ import PrivateRoute from "./privateRoute";
 import Cashout from "../pages/Cashout";
 import Cashin from "../pages/Cashin";
 import Paybill from "../pages/Paybill";
+import CheckBalance from "../pages/CheckBalance";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +37,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/transactions",
-        element: <Transactions />,
+        element: (
+          <PrivateRoute>
+            <Transactions />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/sendmoney",
@@ -67,6 +72,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Paybill />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/checkbalance",
+        element: (
+          <PrivateRoute>
+            <CheckBalance />
           </PrivateRoute>
         ),
       },

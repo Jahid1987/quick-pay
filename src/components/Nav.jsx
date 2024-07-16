@@ -100,5 +100,8 @@ const navLinks = (
     <li>
       <NavLink to="/transactions">Transactions</NavLink>
     </li>
+    <li>
+      <NavLink to="/checkbalance">Check Balance</NavLink>
+    </li>
   </>
 );
