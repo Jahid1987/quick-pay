@@ -10,7 +10,6 @@ const RecipientProfile = ({ recipient, transectionType }) => {
   const { user } = useContext(AuthContext);
   const [sender, setSender] = useState(null);
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -64,7 +63,7 @@ const RecipientProfile = ({ recipient, transectionType }) => {
       <p className="text-gray-500">{recipient.mobile}</p>
       <form onSubmit={handleSubmit(handleAll)} className="">
         <div className="text-center mt-5">
-          <h3 className="text-xl font-bold">Send Money</h3>
+          <h3 className="text-xl font-bold">Enter Amount and PIN</h3>
           <div className="form-control">
             <label className="label flex justify-between">
               <span className="label-text">Enter Amount</span>

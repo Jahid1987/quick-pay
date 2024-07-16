@@ -21,7 +21,7 @@ export async function handleTransection(
     status = "pending";
   }
 
-  if (transectionType === "cashout") {
+  if (transectionType === "cashin") {
     status = "pending";
   }
 
