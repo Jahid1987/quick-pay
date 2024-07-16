@@ -9,27 +9,39 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = Cookies.get("token");
-    if (!token) return;
-    try {
-      const decodedUser = jwtDecode(token);
-      setUser(decodedUser);
-      setIsLoading(false);
-    } catch (error) {
-      toast.error("Something went wrong");
-      Cookies.remove("token");
-      console.log(error);
+    if (token) {
+      try {
+        const decodedUser = jwtDecode(token);
+        setUser(decodedUser);
+      } catch (error) {
+        toast.error("Something went wrong");
+        Cookies.remove("token");
+        console.log(error);
+      }
     }
+    setIsLoading(false);
   }, []);
 
   const login = (token) => {
+    setIsLoading(true);
     Cookies.set("token", token, { expires: 30 });
-    const decodedUser = jwtDecode(token);
-    setUser(decodedUser);
+    try {
+      const decodedUser = jwtDecode(token);
+      setUser(decodedUser);
+    } catch (error) {
+      toast.error("Invalid token");
+      Cookies.remove("token");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
+    setIsLoading(true);
     Cookies.remove("token");
     setUser(null);
+    setIsLoading(false);
   };
   const authInfo = {
     user,

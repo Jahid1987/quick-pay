@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { axiosPublic } from "../hooks/useAxiosPublic";
+import uploadImage from "../lib/uploadImage";
 const Register = () => {
   const {
     register,
@@ -12,18 +13,32 @@ const Register = () => {
   const navigate = useNavigate();
   async function handleRegister(data) {
     const { name, pin, mobile, email } = data;
-    const newUser = {
-      name,
-      pin,
-      mobile,
-      email,
-      status: "pending",
-      role: "user",
-    };
-    await axiosPublic.post("/auth/register", newUser);
-    toast.success("Login to use services.");
-    navigate("/login");
-    console.log(newUser);
+
+    try {
+      // uploading image to imagebb
+      const { success, displayUrl: photoURL } = await uploadImage(
+        data.photo[0]
+      );
+
+      if (!success) {
+        return toast.error("Cannot upload Image");
+      }
+      const newUser = {
+        name,
+        pin,
+        mobile,
+        email,
+        status: "pending",
+        role: data?.role ? "agent" : "user",
+        photo: photoURL,
+      };
+      await axiosPublic.post("/auth/register", newUser);
+      toast.success("Login to use services.");
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something is wrong, try again.");
+    }
   }
   return (
     <div className="py-5 md:py-10">
@@ -32,6 +47,16 @@ const Register = () => {
           Register
         </h3>
         <form onSubmit={handleSubmit(handleRegister)} className="card-body">
+          <div className="flex justify-center items-center gap-5">
+            <label className="label">
+              <span className="label-text">Agent</span>
+            </label>
+            <input
+              type="checkbox"
+              className="checkbox checkbox-xs"
+              {...register("role")}
+            />
+          </div>
           <div className="form-control">
             <label className="label flex justify-between">
               <span className="label-text">Name</span>
@@ -84,6 +109,21 @@ const Register = () => {
               placeholder="mobile"
               className="input input-sm lg:input-md input-bordered"
               {...register("mobile", { required: true })}
+            />
+          </div>
+          <div className="form-control">
+            <label className="label flex justify-between">
+              <span className="label-text">Photo</span>
+              {errors.photo && (
+                <span className="text-red-500 text-sm">
+                  Photo field is required
+                </span>
+              )}
+            </label>
+            <input
+              type="file"
+              className="file-input file-input-bordered file-input-xs w-full max-w-xs"
+              {...register("photo", { required: true })}
             />
           </div>
           <div className="form-control">
