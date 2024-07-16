@@ -1,5 +1,7 @@
 import Card from "../components/Card";
 import arrowup from "../assets/arrowup.svg";
+import arrowdown from "../assets/arrowdown.svg";
+import paybill from "../assets/paybill.svg";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { axiosSecure } from "../hooks/useAxiosSecure";
@@ -31,7 +33,10 @@ const Home = () => {
           <Card arrow={arrowup} text="Cash Out" bg="#BEB1F5" />
         </Link>
         <Link to="/cashin">
-          <Card arrow={arrowup} text="Cash In" bg="#E3CEF8" />
+          <Card arrow={arrowdown} text="Cash In" bg="#E3CEF8" />
+        </Link>
+        <Link to="/paybill">
+          <Card arrow={paybill} text="Pay Bill" bg="#FFFFFF" />
         </Link>
       </section>
     </main>

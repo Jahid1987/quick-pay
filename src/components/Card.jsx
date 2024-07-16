@@ -1,7 +1,7 @@
 const Card = ({ arrow, text, bg }) => {
   return (
     <div
-      className="flex flex-col gap-3 justify-center items-center"
+      className="flex flex-col gap-3 justify-center items-center shadow-md"
       style={{
         borderRadius: "15px",
         background: `var(--Primary, ${bg}) `,

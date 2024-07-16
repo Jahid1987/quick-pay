@@ -9,6 +9,7 @@ import SendMoney from "../pages/SendMoney";
 import PrivateRoute from "./privateRoute";
 import Cashout from "../pages/Cashout";
 import Cashin from "../pages/Cashin";
+import Paybill from "../pages/Paybill";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <Cashin />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/paybill",
+        element: (
+          <PrivateRoute>
+            <Paybill />
           </PrivateRoute>
         ),
       },
