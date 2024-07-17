@@ -11,6 +11,8 @@ import Cashout from "../pages/Cashout";
 import Cashin from "../pages/Cashin";
 import Paybill from "../pages/Paybill";
 import CheckBalance from "../pages/CheckBalance";
+import AllUsers from "../pages/AllUsers";
+import AllTransections from "../pages/AllTransections";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +82,22 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <CheckBalance />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/users",
+        element: (
+          <PrivateRoute>
+            <AllUsers />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/alltransections",
+        element: (
+          <PrivateRoute>
+            <AllTransections />
           </PrivateRoute>
         ),
       },

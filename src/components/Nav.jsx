@@ -4,7 +4,36 @@ import { AuthContext } from "../providers/AuthProvider";
 
 const Nav = () => {
   const { user, logout } = useContext(AuthContext);
-
+  const navLinks = (
+    <>
+      <li>
+        <NavLink to="/">Dashboad</NavLink>
+      </li>
+      <li>
+        <NavLink to="/overview">Overview</NavLink>
+      </li>
+      {user?.role !== "admin" && (
+        <>
+          <li>
+            <NavLink to="/transactions">Transactions</NavLink>
+          </li>
+          <li>
+            <NavLink to="/checkbalance">Check Balance</NavLink>
+          </li>
+        </>
+      )}
+      {user?.role === "admin" && (
+        <>
+          <li>
+            <NavLink to="/users">All Users</NavLink>
+          </li>
+          <li>
+            <NavLink to="/alltransections">All Transections</NavLink>
+          </li>
+        </>
+      )}
+    </>
+  );
   return (
     <div className="bg-base-200">
       <div className="navbar container mx-auto">
@@ -89,19 +118,3 @@ const Nav = () => {
 };
 
 export default Nav;
-const navLinks = (
-  <>
-    <li>
-      <NavLink to="/">Dashboad</NavLink>
-    </li>
-    <li>
-      <NavLink to="/overview">Overview</NavLink>
-    </li>
-    <li>
-      <NavLink to="/transactions">Transactions</NavLink>
-    </li>
-    <li>
-      <NavLink to="/checkbalance">Check Balance</NavLink>
-    </li>
-  </>
-);

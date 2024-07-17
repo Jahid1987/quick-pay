@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     if (user) {
       axiosSecure
-        .get(`/users/${user?.mobile}`)
+        .get(`/users/${user?.email}`)
         .then((data) => setUserDetails(data?.data))
         .catch(() => setUserDetails(null));
     }

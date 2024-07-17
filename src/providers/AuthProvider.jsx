@@ -43,6 +43,7 @@ const AuthProvider = ({ children }) => {
     setUser(null);
     setIsLoading(false);
   };
+  // logout();
   const authInfo = {
     user,
     login,

@@ -27,10 +27,13 @@ const RecipientProfile = ({ recipient, transectionType }) => {
   }, [user]);
 
   async function handleAll(data) {
+    if (user.status === "pending")
+      return toast.error("Your Account is not accepted yet.");
     if (parseInt(data.amount) < 50)
       return toast.error("Amount must be more than 50");
-    if (parseInt(data.amount) > sender.amount)
+    if (parseInt(data.amount) > parseInt(sender.balance))
       return toast.error("You have no sufficient balance.");
+
     try {
       const { data: confirmPin } = await axiosSecure.post("/auth/confirmpin", {
         pin: data.pin,

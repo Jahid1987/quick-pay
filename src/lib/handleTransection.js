@@ -32,6 +32,10 @@ export async function handleTransection(
     sender = recipient.email;
     receiver = user.email;
   }
+  if (transectionType === "paybill") {
+    sender = user.email;
+    receiver = recipient.email;
+  }
 
   const newTransection = {
     sendAmount: parseInt(data.amount),
@@ -42,7 +46,7 @@ export async function handleTransection(
     status,
   };
   await axiosSecure.post("/transetions/create", newTransection);
-  if (transectionType === "sendmoney" || transectionType === "cashout") {
+  if (transectionType !== "cashin") {
     await axiosSecure.post("/transetions/updatebalance", newTransection);
   }
 }
