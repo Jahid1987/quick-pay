@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Root from "../Layout/Root";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
-import Overview from "../pages/Overview";
 import Transactions from "../pages/Transactions";
 import Home from "../pages/Home";
 import SendMoney from "../pages/SendMoney";
@@ -24,7 +23,6 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
-
       {
         path: "/register",
         element: <Register />,
@@ -32,10 +30,6 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
-      },
-      {
-        path: "/overview",
-        element: <Overview />,
       },
       {
         path: "/transactions",

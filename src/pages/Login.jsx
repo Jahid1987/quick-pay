@@ -90,7 +90,9 @@ const Login = () => {
             />
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary">Login</button>
+            <button className="btn  bg-purple-200 hover:bg-purple-300 ">
+              Login
+            </button>
           </div>
         </form>
         <p className="text-center mb-3">
