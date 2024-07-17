@@ -1,16 +1,17 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { axiosSecure } from "../hooks/useAxiosSecure";
+// import { axiosSecure } from "../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import TransectionCard from "./TransectionCard";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const RecentTransections = () => {
   const { user } = useContext(AuthContext);
-
+  const axiosSecured = useAxiosSecured();
   const { data: recenttransections = [] } = useQuery({
     queryKey: ["recenttransections", user?._id],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/transetions?limit=5`);
+      const { data } = await axiosSecured.get(`/transetions?limit=5`);
       return data;
     },
   });

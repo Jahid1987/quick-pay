@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { axiosSecure } from "../hooks/useAxiosSecure";
 import UserRow from "../components/UserRow";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const AllUsers = () => {
+  const axiosSecured = useAxiosSecured();
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await axiosSecure.get("/users");
+      const { data } = await axiosSecured.get("/users");
 
       return data;
     },

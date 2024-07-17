@@ -1,9 +1,10 @@
-import { axiosSecure } from "../hooks/useAxiosSecure";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const UserRow = ({ user, update }) => {
+  const axiosSecured = useAxiosSecured();
   async function handleStatus() {
     console.log(user);
-    await axiosSecure.patch(`/users/${user._id}`, user);
+    await axiosSecured.patch(`/users/${user._id}`, user);
     update();
   }
   return (

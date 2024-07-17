@@ -25,8 +25,11 @@ const Login = () => {
     try {
       if (isEmail) {
         const credentials = { email: data.identity, pin: data.pin };
-        const res = await axiosPublic.post("/auth/login", credentials);
+        const res = await axiosPublic.post("/auth/login", credentials, {
+          withCredentials: true,
+        });
         login(res?.data?.token);
+
         toast.success("Login successfully.");
         navigate(location.state || "/");
         return reset();

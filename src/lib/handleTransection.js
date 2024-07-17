@@ -1,5 +1,4 @@
-import { axiosSecure } from "../hooks/useAxiosSecure";
-
+import { axiosPublic } from "../hooks/useAxiosPublic";
 export async function handleTransection(
   data,
   user,
@@ -45,8 +44,8 @@ export async function handleTransection(
     transectionType,
     status,
   };
-  await axiosSecure.post("/transetions/create", newTransection);
+  await axiosPublic.post("/transetions/create", newTransection);
   if (transectionType !== "cashin") {
-    await axiosSecure.post("/transetions/updatebalance", newTransection);
+    await axiosPublic.post("/transetions/updatebalance", newTransection);
   }
 }

@@ -1,16 +1,16 @@
 import TableRow from "./TableRow";
-import { axiosSecure } from "../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const DataTable = ({ limit }) => {
   const { user } = useContext(AuthContext);
-
+  const axiosSecured = useAxiosSecured();
   const { data: transections = [], refetch } = useQuery({
     queryKey: ["transections", user._id],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(`/transetions?limit=${limit}`);
+      const { data } = await axiosSecured.get(`/transetions?limit=${limit}`);
       return data;
     },
   });

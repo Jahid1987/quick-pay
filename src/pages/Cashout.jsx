@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { axiosSecure } from "../hooks/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import RecipientProfile from "../components/handleTransection";
 import { toast } from "react-toastify";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const Cashout = () => {
   const [recipient, setRecipient] = useState(null);
-
+  const axiosSecured = useAxiosSecured();
   const {
     register,
     handleSubmit,
@@ -14,7 +14,7 @@ const Cashout = () => {
   } = useForm();
   async function handleRecipient(data) {
     try {
-      const { data: user } = await axiosSecure.get(`/users/${data.mobile}`);
+      const { data: user } = await axiosSecured.get(`/users/${data.mobile}`);
       if (user) {
         setRecipient(user);
       } else {

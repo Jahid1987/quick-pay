@@ -1,15 +1,17 @@
 import { useForm } from "react-hook-form";
-import { axiosSecure } from "../hooks/useAxiosSecure";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { handleTransection } from "../lib/handleTransection";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const RecipientProfile = ({ recipient, transectionType }) => {
   const { user } = useContext(AuthContext);
   const [sender, setSender] = useState(null);
   const navigate = useNavigate();
+  const axiosSecured = useAxiosSecured();
+
   const {
     register,
     handleSubmit,
@@ -19,13 +21,14 @@ const RecipientProfile = ({ recipient, transectionType }) => {
 
   useEffect(() => {
     if (user) {
-      axiosSecure
+      axiosSecured
         .get(`/users/${user.mobile}`)
         .then((data) => setSender(data.data))
         .catch(() => setSender(null));
     }
   }, [user]);
-
+  // axiosSecured
+  // .get(`/users/${user?.mobile}`)
   async function handleAll(data) {
     if (user.status === "pending")
       return toast.error("Your Account is not accepted yet.");
@@ -35,7 +38,7 @@ const RecipientProfile = ({ recipient, transectionType }) => {
       return toast.error("You have no sufficient balance.");
 
     try {
-      const { data: confirmPin } = await axiosSecure.post("/auth/confirmpin", {
+      const { data: confirmPin } = await axiosSecured.post("/auth/confirmpin", {
         pin: data.pin,
         email: user.email,
       });

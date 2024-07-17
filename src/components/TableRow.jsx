@@ -1,12 +1,14 @@
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { axiosSecure } from "../hooks/useAxiosSecure";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const TableRow = ({ item, update }) => {
   const { user } = useContext(AuthContext);
+  const axiosSecured = useAxiosSecured();
+
   async function handleStatus() {
     console.log(item);
-    await axiosSecure.patch(`/transetions/${item._id}`, item);
+    await axiosSecured.patch(`/transetions/${item._id}`, item);
     update();
   }
   return (

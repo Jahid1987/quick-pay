@@ -4,23 +4,23 @@ import arrowdown from "../assets/arrowdown.svg";
 import paybill from "../assets/paybill.svg";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { axiosSecure } from "../hooks/useAxiosSecure";
+// import { axiosSecure } from "../hooks/useAxiosSecure";
 import { AuthContext } from "../providers/AuthProvider";
 import RecentTransections from "../components/RecentTransections";
+import useAxiosSecured from "../hooks/useAxiosSecured";
 
 const Home = () => {
   const { user } = useContext(AuthContext);
-
+  const axiosSecured = useAxiosSecured();
   const [userDetails, setUserDetails] = useState(null);
   useEffect(() => {
     if (user) {
-      axiosSecure
+      axiosSecured
         .get(`/users/${user?.mobile}`)
         .then((data) => setUserDetails(data?.data))
         .catch(() => setUserDetails(null));
     }
   }, [user]);
-
   return (
     <main>
       {user && user?.role !== "admin" && (
